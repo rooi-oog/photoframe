@@ -19,15 +19,15 @@ SDRAM controller was slightly modified with purpose to give priority to the firs
 ### Limitations:
 For this project I'm using 10.1" LCD with 1280x800 screen resolutuion. In order to display various jpeg images 
 user should downscale that images to LCD resolutuion. 
-Furthermore Tjpegd library capable to decode baseline and 4:2:0 jpegs only. 
+Furthermore Tjpegd library only capable to decode baseline and 4:2:0 subsampling jpegs. 
 For this purpose I wrote small script which located at *software/tools/conv.sh*. 
 This script uses ImageMagick for converting all images in given directory to:
 - baseline
-- 4:2:0 subsambling
+- 4:2:0 subsampling
 - 1280x800 or 800x1280 depending of image orientation
 
 ### How to reproduce:
-If you're using DE0-Nano development board you'll need Quartus software. Web Edition will be enough.
+If you're using **DE0-Nano** development board you'll need **Quartus** software. **Web Edition** will be enough.
 Then you should upload *pframe.sof* file which is located at *board/de0-nano/syn/output_files* 
 or you can upload firmware to the EPCS16 with *epcs16.cdf*. 
 Futher you should use *serial_upload* program located at *software/tools* 
