@@ -2,6 +2,8 @@
 
 This is FPGA based digital photoframe project. It capable read jpeg files from SD card and display them to TFT LCD.
 
+![Photoframe image](https://raw.githubusercontent.com/rooi-oog/photoframe/master/photoframe.png)
+
 ### This project utilizes:
 * Cyclone IV EP4CE15E22C8 as a heart of whole system
 * LatticeMico32 soft-CPU to decode jpeg
