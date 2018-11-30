@@ -1,4 +1,5 @@
 *.[oa]
+bench/*
 board/de0-nano/syn/*
 !board/de0-nano/syn/pframe.qpf
 !board/de0-nano/syn/pframe.qsf
