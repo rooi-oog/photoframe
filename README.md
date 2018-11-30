@@ -13,6 +13,8 @@ This is FPGA base digital photoframe project. It capable read jpeg files from SD
 	
 Most of the code both software and hardware borrowed from [Milkymist(tm)](https://github.com/m-labs/milkymist) project. 
 SDRAM controller was borrowed from [Stefan Kristiansson](https://github.com/skristiansson/wb_sdram_ctrl)
+SDRAM controller was slightly modified with purpose to give priority to the first master (framebuffer) in case of rivalry.
+
 
 ### Limitations:
 For this project I'm using 10.1" LCD with 1280x800 screen resolutuion. In order to display various jpeg images 
