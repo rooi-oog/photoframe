@@ -1,4 +1,0 @@
-v1
-DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,lm32_top:cpu|lm32_cpu:cpu|lm32_multiplier:multiplier|lpm_mult:Mult0|mult_7dt:auto_generated|mac_out2,
-DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,lm32_top:cpu|lm32_cpu:cpu|lm32_multiplier:multiplier|lpm_mult:Mult0|mult_7dt:auto_generated|mac_out4,
-DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,lm32_top:cpu|lm32_cpu:cpu|lm32_multiplier:multiplier|lpm_mult:Mult0|mult_7dt:auto_generated|mac_out6,
