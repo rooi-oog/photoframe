@@ -131,6 +131,17 @@ module pframe (
 	wire [31:0]	wb_csr_rdt;
 	wire 		wb_csr_ack;
 	
+	wire [31:0]	wb_gdb_adr;
+	wire 		wb_gdb_stb;
+	wire 		wb_gdb_cyc;
+	wire [2:0]	wb_gdb_cti;
+	wire [1:0]	wb_gdb_bte;
+	wire 		wb_gdb_we;
+	wire [3:0]	wb_gdb_sel;
+	wire [31:0]	wb_gdb_dat;
+	wire [31:0]	wb_gdb_rdt;
+	wire 		wb_gdb_ack;
+	
 /*------------------------------------------------------------------------*/
 /* CSR bus                                                                */
 /*------------------------------------------------------------------------*/
@@ -208,7 +219,8 @@ module pframe (
 		.s0_addr(3'b000),	// rom
 		.s1_addr(3'b001),	// flash
 		.s2_addr(3'b010),	// sdram
-		.s3_addr(3'b011)	// csr bridge
+		.s3_addr(3'b011),	// csr bridge
+		.s4_addr(3'b100)	// gdb monitor
 	) wbswitch (
 		.sys_clk(sys_clk),
 		.sys_rst(sys_rst),
@@ -283,7 +295,18 @@ module pframe (
 		.s3_we_o (wb_csr_we),
 		.s3_cyc_o(wb_csr_cyc),
 		.s3_stb_o(wb_csr_stb),
-		.s3_ack_i(wb_csr_ack)
+		.s3_ack_i(wb_csr_ack),
+		
+		// Slave 3
+		.s4_dat_i(wb_gdb_rdt),
+		.s4_dat_o(wb_gdb_dat),
+		.s4_adr_o(wb_gdb_adr),
+		.s4_cti_o(wb_gdb_cti),
+		.s4_sel_o(wb_gdb_sel),
+		.s4_we_o (wb_gdb_we),
+		.s4_cyc_o(wb_gdb_cyc),
+		.s4_stb_o(wb_gdb_stb),
+		.s4_ack_i(wb_gdb_ack)
 	);
 
 /*------------------------------------------------------------------------*/
