@@ -3,7 +3,7 @@
 This is FPGA based digital photoframe project. It capable read jpeg files from SD card and display them to TFT LCD.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/rooi-oog/photoframe/master/photoframe.png" width="239" title="Photoframe">
+  <img src="https://raw.githubusercontent.com/rooi-oog/photoframe/master/photoframe.png" width="239" title="Photoframe" style="float:right">
 </p>
 
 ### This project utilizes:
