@@ -20,7 +20,7 @@ SDRAM controller was slightly modified with purpose to give priority to the firs
 For this project I'm using 10.1" LCD with 1280x800 screen resolutuion. In order to display various jpeg images 
 user should downscale that images to LCD resolutuion. 
 Furthermore Tjpegd library only capable to decode baseline and 4:2:0 subsampling jpegs. 
-For this purpose I wrote small script which located at *software/tools/conv.sh*. 
+For this purpose I wrote small script which is located at *software/tools/conv.sh*. 
 This script uses ImageMagick for converting all images in given directory to:
 - baseline
 - 4:2:0 subsampling
