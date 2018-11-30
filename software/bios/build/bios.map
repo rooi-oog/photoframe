@@ -1,0 +1,163 @@
+
+Discarded input sections
+
+ .data          0x0000000000000000        0x0 src/crt0.o
+ .bss           0x0000000000000000        0x0 src/crt0.o
+ .data          0x0000000000000000        0x0 src/vsnprintf-nofloat.o
+ .bss           0x0000000000000000        0x0 src/vsnprintf-nofloat.o
+ .data          0x0000000000000000        0x0 src/main.o
+ .bss           0x0000000000000000        0x0 src/main.o
+ .data          0x0000000000000000        0x0 src/uart.o
+ .data          0x0000000000000000        0x0 src/console.o
+ .data          0x0000000000000000        0x0 src/isr.o
+ .bss           0x0000000000000000        0x0 src/isr.o
+ .data          0x0000000000000000        0x0 src/libc.o
+ .data          0x0000000000000000        0x0 src/flash.o
+ .bss           0x0000000000000000        0x0 src/flash.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+flash            0x0000000000000000 0x0000000000020000
+sdram            0x0000000020500000 0x0000000000200000
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD src/crt0.o
+LOAD src/vsnprintf-nofloat.o
+LOAD src/main.o
+LOAD src/uart.o
+LOAD src/console.o
+LOAD src/isr.o
+LOAD src/libc.o
+LOAD src/flash.o
+START GROUP
+END GROUP
+                0x0000000000000000                __DYNAMIC = 0x0
+
+.text           0x0000000000000000     0x243c
+                0x0000000000000000                _ftext = .
+ *(.text .stub .text.* .gnu.linkonce.t.*)
+ .text          0x0000000000000000      0x19c src/crt0.o
+                0x0000000000000000                _start
+ .text          0x000000000000019c      0x7dc src/vsnprintf-nofloat.o
+                0x000000000000019c                vsnprintf
+ .text          0x0000000000000978       0xc4 src/main.o
+ .text.startup  0x0000000000000a3c      0x24c src/main.o
+                0x0000000000000a3c                main
+ .text          0x0000000000000c88      0x2ac src/uart.o
+                0x0000000000000c88                uart_isr
+                0x0000000000000d64                uart_read
+                0x0000000000000db4                uart_read_nonblock
+                0x0000000000000ddc                uart_write
+                0x0000000000000e88                uart_init
+                0x0000000000000f08                uart_force_sync
+ .text          0x0000000000000f34      0x30c src/console.o
+                0x0000000000000f34                console_set_write_hook
+                0x0000000000000f48                console_set_read_hook
+                0x0000000000000f6c                readchar
+                0x0000000000000fcc                readchar_nonblock
+                0x0000000000001014                puts
+                0x00000000000010bc                putsnonl
+                0x0000000000001164                printf
+ .text          0x0000000000001240       0x30 src/isr.o
+                0x0000000000001240                isr
+ .text          0x0000000000001270      0xf38 src/libc.o
+                0x0000000000001270                strchr
+                0x0000000000001298                strrchr
+                0x00000000000012d8                strnchr
+                0x0000000000001318                strcpy
+                0x0000000000001334                strncpy
+                0x000000000000135c                strcmp
+                0x000000000000138c                strncmp
+                0x00000000000013e8                strlen
+                0x0000000000001410                strnlen
+                0x0000000000001454                memcmp
+                0x00000000000014a4                memset
+                0x00000000000015e4                memcpy
+                0x0000000000001840                memmove
+                0x000000000000193c                strstr
+                0x00000000000019e8                strtoul
+                0x0000000000001b40                strtol
+                0x0000000000001cd4                skip_atoi
+                0x0000000000001d30                number
+                0x000000000000204c                vscnprintf
+                0x0000000000002078                snprintf
+                0x00000000000020ac                scnprintf
+                0x00000000000020f4                vsprintf
+                0x000000000000211c                sprintf
+                0x0000000000002160                rand
+                0x000000000000218c                abort
+ .text          0x00000000000021a8      0x294 src/flash.o
+                0x00000000000021a8                flash_block_erase
+                0x00000000000021f0                flash_page_program
+                0x0000000000002264                flash_write_data
+                0x000000000000243c                _etext = .
+
+.rodata         0x000000000000243c      0x800
+                0x000000000000243c                . = ALIGN (0x4)
+                0x000000000000243c                _frodata = .
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+ .rodata.str1.4
+                0x000000000000243c        0x7 src/vsnprintf-nofloat.o
+                                          0x8 (size before relaxing)
+ *fill*         0x0000000000002443        0x1 
+ .rodata.cst4   0x0000000000002444       0x14 src/vsnprintf-nofloat.o
+ .rodata        0x0000000000002458      0x434 src/vsnprintf-nofloat.o
+ .rodata.str1.4
+                0x000000000000288c      0x241 src/main.o
+                                        0x244 (size before relaxing)
+ *fill*         0x0000000000002acd        0x3 
+ .rodata.cst4   0x0000000000002ad0       0x2c src/main.o
+ .rodata.cst4   0x0000000000002afc       0x58 src/uart.o
+ .rodata.cst4   0x0000000000002b54       0x24 src/console.o
+ .rodata.cst4   0x0000000000002b78       0x10 src/libc.o
+ .rodata.str1.4
+                0x0000000000002b88        0x9 src/libc.o
+                                          0xc (size before relaxing)
+ *fill*         0x0000000000002b91        0x3 
+ .rodata        0x0000000000002b94       0x50 src/libc.o
+ .rodata.str1.4
+                0x0000000000002be4       0x4c src/flash.o
+ .rodata.cst4   0x0000000000002c30        0xc src/flash.o
+ *(.rodata1)
+                0x0000000000002c3c                _erodata = .
+
+.data           0x0000000000002c3c        0x0
+                0x0000000000002c3c                . = ALIGN (0x4)
+                0x0000000000002c3c                _fdata = .
+ *(.data .data.* .gnu.linkonce.d.*)
+ *(.data1)
+                0x0000000000002c40                _gp = ALIGN (0x10)
+ *(.sdata .sdata.* .gnu.linkonce.s.*)
+                0x0000000000002c3c                _edata = .
+
+.bss            0x0000000020500000    0x21028
+                0x0000000020500000                . = ALIGN (0x4)
+                0x0000000020500000                _fbss = .
+ *(.dynsbss)
+ *(.sbss .sbss.* .gnu.linkonce.sb.*)
+ *(.scommon)
+ *(.dynbss)
+ *(.bss .bss.* .gnu.linkonce.b.*)
+ .bss           0x0000000020500000    0x21018 src/uart.o
+ .bss           0x0000000020521018        0xc src/console.o
+ .bss           0x0000000020521024        0x4 src/libc.o
+ *(COMMON)
+                0x0000000020521028                . = ALIGN (0x4)
+                0x0000000020521028                _ebss = .
+                0x0000000020521028                _end = .
+                [!provide]                        PROVIDE (end = .)
+                0x00000000206ffffc                PROVIDE (_fstack = ((ORIGIN (sdram) + LENGTH (sdram)) - 0x4))
+OUTPUT(build/bios.elf elf32-lm32)
+
+.comment        0x0000000000000000       0x11
+ .comment       0x0000000000000000       0x11 src/vsnprintf-nofloat.o
+                                         0x12 (size before relaxing)
+ .comment       0x0000000000000011       0x12 src/main.o
+ .comment       0x0000000000000011       0x12 src/uart.o
+ .comment       0x0000000000000011       0x12 src/console.o
+ .comment       0x0000000000000011       0x12 src/isr.o
+ .comment       0x0000000000000011       0x12 src/libc.o
+ .comment       0x0000000000000011       0x12 src/flash.o

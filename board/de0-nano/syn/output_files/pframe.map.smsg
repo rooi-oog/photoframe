@@ -1,0 +1,4 @@
+Warning (10273): Verilog HDL warning at flash_ctrl.v(31): extended using "x" or "z" File: /home/alexx/Nextcloud/projects/github/photoframe/cores/spi_flash/rtl/flash_ctrl.v Line: 31
+Warning (10273): Verilog HDL warning at flash_ctrl.v(102): extended using "x" or "z" File: /home/alexx/Nextcloud/projects/github/photoframe/cores/spi_flash/rtl/flash_ctrl.v Line: 102
+Warning (10273): Verilog HDL warning at pframe.v(225): extended using "x" or "z" File: /home/alexx/Nextcloud/projects/github/photoframe/board/de0-nano/rtl/pframe.v Line: 225
+Warning (10273): Verilog HDL warning at pframe.v(549): extended using "x" or "z" File: /home/alexx/Nextcloud/projects/github/photoframe/board/de0-nano/rtl/pframe.v Line: 549

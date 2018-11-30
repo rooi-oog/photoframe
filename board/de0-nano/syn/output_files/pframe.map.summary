@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Fri Nov 30 12:09:18 2018
+Quartus Prime Version : 18.0.0 Build 614 04/24/2018 SJ Lite Edition
+Revision Name : pframe
+Top-level Entity Name : pframe
+Family : Cyclone IV E
+Total logic elements : 8,767
+    Total combinational functions : 6,919
+    Dedicated logic registers : 4,587
+Total registers : 4597
+Total pins : 63
+Total virtual pins : 0
+Total memory bits : 411,136
+Embedded Multiplier 9-bit elements : 6
+Total PLLs : 3
