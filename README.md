@@ -1,10 +1,10 @@
 # Digital Photoframe
 
-This is FPGA based digital photoframe project. It capable read jpeg files from SD card and display them to TFT LCD.
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/rooi-oog/photoframe/master/photoframe.png" width="239" title="Photoframe" style="float:right">
+<p align="left">
+  <img src="https://raw.githubusercontent.com/rooi-oog/photoframe/master/photoframe.png" width="239" title="Photoframe">
 </p>
+
+This is FPGA based digital photoframe project. It capable read jpeg files from SD card and display them to TFT LCD.
 
 ### This project utilizes:
 * Cyclone IV EP4CE15E22C8 as a heart of whole system
