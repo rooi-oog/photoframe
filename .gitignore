@@ -1,0 +1,8 @@
+*.[oa]
+board/de0-nano/syn/*
+!board/de0-nano/syn/pframe.qpf
+!board/de0-nano/syn/pframe.qsf
+!board/de0-nano/syn/bios.hex
+!board/de0-nano/syn/output_files/*.sof
+!board/de0-nano/syn/output_files/*.cfg
+!board/de0-nano/syn/output_files/*.jic

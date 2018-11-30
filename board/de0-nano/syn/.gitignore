@@ -1,7 +1,0 @@
-./*
-!pframe.qpf
-!pframe.qsf
-!bios.hex
-!./output_files/*.sof
-!./output_files/*.cfg
-!./output_files/*.jic
