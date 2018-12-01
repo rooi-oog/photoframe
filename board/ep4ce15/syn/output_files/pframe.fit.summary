@@ -1,0 +1,16 @@
+Fitter Status : Successful - Sun Dec  2 00:54:46 2018
+Quartus Prime Version : 18.0.0 Build 614 04/24/2018 SJ Lite Edition
+Revision Name : pframe
+Top-level Entity Name : pframe
+Family : Cyclone IV E
+Device : EP4CE15E22C8
+Timing Models : Final
+Total logic elements : 8,001 / 15,408 ( 52 % )
+    Total combinational functions : 7,089 / 15,408 ( 46 % )
+    Dedicated logic registers : 4,451 / 15,408 ( 29 % )
+Total registers : 4451
+Total pins : 65 / 82 ( 79 % )
+Total virtual pins : 0
+Total memory bits : 300,032 / 516,096 ( 58 % )
+Embedded Multiplier 9-bit elements : 6 / 112 ( 5 % )
+Total PLLs : 3 / 4 ( 75 % )
