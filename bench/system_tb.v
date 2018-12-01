@@ -102,7 +102,7 @@ sdModel sdmodel (
 
 
 initial begin
-	$readmemh ("../software/bios/build/pframe_bios.hex", system_tb.pframe.rom.rom);
+	$readmemh ("../software/bios/build/bios.hex", system_tb.pframe.rom.rom);
 	//$readmemh ("../software/build/pframe.hex", system_tb.flash.Mem);
 	$dumpfile ("system_tb.vcd");
 	$dumpvars;

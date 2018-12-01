@@ -1,0 +1,62 @@
+
+Discarded input sections
+
+ .data          0x0000000000000000        0x0 crt0.o
+ .bss           0x0000000000000000        0x0 crt0.o
+ .data          0x0000000000000000        0x0 gdbstub.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+rom              0x0000000040000000 0x0000000000001800
+ram              0x0000000040001800 0x0000000000000800
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD crt0.o
+LOAD gdbstub.o
+START GROUP
+END GROUP
+                0x0000000000000000                __DYNAMIC = 0x0
+
+.text           0x0000000040000000     0x1078
+                0x0000000040000000                _ftext = .
+ *(.text .stub .text.* .gnu.linkonce.t.*)
+ .text          0x0000000040000000      0x2d4 crt0.o
+                0x0000000040000000                _start
+                0x00000000400002b0                clear_bss
+ .text          0x00000000400002d4      0xda4 gdbstub.o
+                0x0000000040000780                handle_exception
+                0x0000000040001078                _etext = .
+
+.rodata         0x0000000040001078       0xb0
+                0x0000000040001078                . = ALIGN (0x4)
+                0x0000000040001078                _frodata = .
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+ .rodata.cst4   0x0000000040001078       0x68 gdbstub.o
+ .rodata.str1.4
+                0x00000000400010e0       0x2c gdbstub.o
+ .rodata        0x000000004000110c       0x1c gdbstub.o
+ *(.rodata1)
+                0x0000000040001128                _erodata = .
+
+.bss            0x0000000040001800      0x674
+                0x0000000040001800                . = ALIGN (0x4)
+                0x0000000040001800                _fbss = .
+ *(.dynsbss)
+ *(.sbss .sbss.* .gnu.linkonce.sb.*)
+ *(.scommon)
+ *(.dynbss)
+ *(.bss .bss.* .gnu.linkonce.b.*)
+ .bss           0x0000000040001800      0x674 gdbstub.o
+ *(COMMON)
+                0x0000000040001e74                . = ALIGN (0x4)
+                0x0000000040001e74                _ebss = .
+                0x0000000040001e74                _end = .
+                0x0000000040001ffc                PROVIDE (_debug_stack = ((ORIGIN (ram) + LENGTH (ram)) - 0x4))
+OUTPUT(./gdbstub.elf elf32-lm32)
+
+.comment        0x0000000000000000       0x11
+ .comment       0x0000000000000000       0x11 gdbstub.o
+                                         0x12 (size before relaxing)

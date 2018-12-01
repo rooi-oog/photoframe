@@ -44,7 +44,10 @@ module sysctl #(
 	input [ninputs-1:0] gpio_inputs,
 	output reg [noutputs-1:0] gpio_outputs,
 	
-	output reg sysctl_reset
+	output reg sysctl_reset,
+	
+	output reg debug_write_lock,
+	output reg bus_errors_en	
 );
 
 /*
@@ -110,6 +113,10 @@ wire match1 = (counter1 == compare1);
 assign pwm0 = counter0 < pwm0_reg;
 assign pwm1 = counter1 < pwm1_reg;
 
+/*
+ * Debug scrachpad register
+ */
+reg [7:0] debug_scratchpad;
 
 /*
  * Logic and CSR interface
@@ -139,7 +146,11 @@ always @(posedge sys_clk) begin
 		pwm1_reg <= 32'd0;
 
 		sysctl_reset <= 1'b0;
-
+		
+		debug_scratchpad <= 8'd0;
+		debug_write_lock <= 1'b0;
+		bus_errors_en <= 1'b0;
+		
 	end else begin
 		timer0_irq <= 1'b0;
 		timer1_irq <= 1'b0;
@@ -182,7 +193,15 @@ always @(posedge sys_clk) begin
 					end
 					5'b01001: compare1 <= csr_di;
 					5'b01010: counter1 <= csr_di;
-					5'b01011: pwm1_reg <= csr_di;					
+					5'b01011: pwm1_reg <= csr_di;		
+					
+					/* Debug monitor (gdbstub) */
+					5'b10100: debug_scratchpad <= csr_di[7:0];
+					5'b10101: begin
+						if(csr_di[0])
+							debug_write_lock <= 1'b1;
+						bus_errors_en <= csr_di[1];
+					end			
 
 					// 11101 is clk_freq and is read-only
 					// 11110 is capabilities and is read-only
@@ -210,7 +229,11 @@ always @(posedge sys_clk) begin
 				5'b01011: csr_do <= pwm1_reg;
 				
 				/* Simple counter register */
-				5'b10100: csr_do <= simple_counter;
+				5'b10000: csr_do <= simple_counter;
+				
+				/* Debug monitor (gdbstub) */
+				5'b10100: csr_do <= debug_scratchpad;
+				5'b10101: csr_do <= {bus_errors_en, debug_write_lock};
 
 				/* Read only SoC properties */
 				5'b11101: csr_do <= clk_freq;

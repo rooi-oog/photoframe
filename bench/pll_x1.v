@@ -15,7 +15,7 @@ initial begin
 end
 
 always	#5000	c0 <= ~c0;
-always	#3571 	c1 <= ~c1;
+always	#5000 	c1 <= ~c1;
 always	#10000	c2 <= ~c2;
 
 always	@(posedge c0) locked <= 1;

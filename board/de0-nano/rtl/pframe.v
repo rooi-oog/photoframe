@@ -457,6 +457,31 @@ assign cpu_interrupt = {16'd0,
 	);
 
 /*------------------------------------------------------------------------*/
+/* Monitor ROM / RAM                                                      */
+/*------------------------------------------------------------------------*/ 
+	wire debug_write_lock;
+
+`ifdef CFG_ROM_DEBUG_ENABLED
+	monitor gdb_monitor (
+		.sys_clk	( sys_clk			),
+		.sys_rst	( sys_rst			),
+		.write_lock	( debug_write_lock	),
+
+		.wb_adr_i	( wb_gdb_adr		),
+		.wb_dat_o	( wb_gdb_rdt		),
+		.wb_dat_i	( wb_gdb_dat		),
+		.wb_sel_i	( wb_gdb_sel		),
+		.wb_stb_i	( wb_gdb_stb		),
+		.wb_cyc_i	( wb_gdb_cyc		),
+		.wb_ack_o	( wb_gdb_ack		),
+		.wb_we_i	( wb_gdb_we			)
+	);
+`else
+	assign wb_gdb_rdt = 32'bx;
+	assign wb_gdb_ack = 1'b0;
+`endif
+
+/*------------------------------------------------------------------------*/
 /* Flash memory                                                           */
 /*------------------------------------------------------------------------*/
 	spi_flash #(
@@ -521,28 +546,31 @@ assign cpu_interrupt = {16'd0,
 		.clk_freq		( `CLOCK_FREQUENCY	),
 		.systemid		( 32'h20181125		)
 	) sysctl (
-		.sys_clk		( sys_clk		),
-		.sys_rst		( sys_rst		),
+		.sys_clk			( sys_clk			),
+		.sys_rst			( sys_rst			),
 
-		.gpio_irq		( gpio_irq		),
-		.timer0_irq		( timer0_irq	),
-		.timer1_irq		( timer1_irq	),
+		.gpio_irq			( gpio_irq			),
+		.timer0_irq			( timer0_irq		),
+		.timer1_irq			( timer1_irq		),
 		
-		.pwm0			( lcd_pwm		),
-		.pwm1			( pwm1			),
+		.pwm0				( lcd_pwm			),
+		.pwm1				( pwm1				),
 
-		.csr_a			( csr_a			),
-		.csr_we			( csr_we		),
-		.csr_di			( csr_dw		),
-		.csr_do			( csr_dr_sysctl	),
+		.csr_a				( csr_a				),
+		.csr_we				( csr_we			),
+		.csr_di				( csr_dw			),
+		.csr_do				( csr_dr_sysctl		),
 
-		.gpio_inputs	( 2'h0			),
-		.gpio_outputs	( { leds_pad [3], 
-							leds_pad [2], 
-							leds_pad [1], 
-							leds_pad [0]} ),
+		.gpio_inputs		( 2'h0				),
+		.gpio_outputs		( { leds_pad [3], 
+								leds_pad [2], 
+								leds_pad [1], 
+								leds_pad [0]}	),
 
-		.sysctl_reset	( sysctl_reset	)
+		.sysctl_reset		( sysctl_reset		),
+		
+		.debug_write_lock 	( debug_write_lock	),
+		.bus_errors_en 		( bus_errors_en		)
 	);
 
 /*------------------------------------------------------------------------*/
@@ -580,7 +608,7 @@ assign cpu_interrupt = {16'd0,
 		.TECHNOLOGY		("ALTERA"),
 		.POWERUP_DELAY	(200),		// power up delay in us
 	`endif
-		.CLK_FREQ_MHZ	(100),		// sdram_clk freq in MHZ
+		.CLK_FREQ_MHZ	(80),		// sdram_clk freq in MHZ
 		.BURST_LENGTH	(8),		// 0), 1), 2), 4 or 8 (0 = full page)
 		.WB_PORTS		(2),		// Number of wishbone ports
 		.BUF_WIDTH		(3),		// Buffer size = 2^BUF_WIDTH

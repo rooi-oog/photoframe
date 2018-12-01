@@ -178,33 +178,37 @@ set_global_assignment -name SEARCH_PATH ../../../cores/uart/rtl
 set_global_assignment -name SEARCH_PATH ../../../cores/conbus/rtl
 set_global_assignment -name SEARCH_PATH ../../../cores/lm32/rtl
 
-set_global_assignment -name SDC_FILE ../rtl/pframe.sdc
 
+
+
+
+
+
+
+
+
+
+
+set_global_assignment -name VERILOG_FILE ../../../cores/monitor/rtl/monitor.v
+set_global_assignment -name SDC_FILE ../rtl/pframe.sdc
 set_global_assignment -name VERILOG_FILE ../../../cores/asfifo/rtl/asfifo_graycounter.v
 set_global_assignment -name VERILOG_FILE ../../../cores/asfifo/rtl/asfifo.v
-
 set_global_assignment -name VERILOG_FILE ../../../cores/vgafb/rtl/vgafb_pixelfeed.v
 set_global_assignment -name VERILOG_FILE ../../../cores/vgafb/rtl/vgafb_fifo32to16.v
 set_global_assignment -name VERILOG_FILE ../../../cores/vgafb/rtl/vgafb_ctlif.v
 set_global_assignment -name VERILOG_FILE ../../../cores/vgafb/rtl/vgafb.v
-
 set_global_assignment -name VERILOG_FILE ../../../cores/lvds/rtl/video_lvds.v
 set_global_assignment -name VERILOG_FILE ../../../cores/lvds/rtl/serializer.v
 set_global_assignment -name VERILOG_FILE ../../../cores/lvds/rtl/fpd_link.v
-
 set_global_assignment -name VERILOG_FILE ../../../cores/spi_flash/rtl/spi_flash.v
 set_global_assignment -name VERILOG_FILE ../../../cores/spi_flash/rtl/simple_dual_ram.v
 set_global_assignment -name VERILOG_FILE ../../../cores/spi_flash/rtl/flash_ctrl.v
-
 set_global_assignment -name VERILOG_FILE ../../../cores/wb_mem/rtl/wb_rom.v
 set_global_assignment -name VERILOG_FILE ../../../cores/wb_mem/rtl/wb_ram.v
-
 set_global_assignment -name VERILOG_FILE ../rtl/pll_x1.v
 set_global_assignment -name VERILOG_FILE ../rtl/pll_3x5.v
 set_global_assignment -name VERILOG_FILE ../rtl/pframe.v
-
 set_global_assignment -name VERILOG_FILE ../../../cores/spi/spi_slave.v
-
 set_global_assignment -name VERILOG_FILE ../../../cores/wb_sdram_ctrl/rtl/verilog/wb_sdram_ctrl.v
 set_global_assignment -name VERILOG_FILE ../../../cores/wb_sdram_ctrl/rtl/verilog/wb_port_arbiter.v
 set_global_assignment -name VERILOG_FILE ../../../cores/wb_sdram_ctrl/rtl/verilog/wb_port.v
@@ -214,8 +218,5 @@ set_global_assignment -name VERILOG_FILE ../../../cores/wb_sdram_ctrl/rtl/verilo
 set_global_assignment -name VERILOG_FILE ../../../cores/wb_sdram_ctrl/rtl/verilog/dpram_ecp5.v
 set_global_assignment -name VERILOG_FILE ../../../cores/wb_sdram_ctrl/rtl/verilog/dpram_altera.v
 set_global_assignment -name VERILOG_FILE ../../../cores/wb_sdram_ctrl/rtl/verilog/bufram.v
-
 set_global_assignment -name CDF_FILE output_files/epcs16.cdf
-
-
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

@@ -30,7 +30,8 @@ module conbus5x6 #(
 	parameter s0_addr = 3'b000,
 	parameter s1_addr = 3'b001,
 	parameter s2_addr = 3'b010,
-	parameter s3_addr = 3'b011
+	parameter s3_addr = 3'b011,
+	parameter s4_addr = 3'b100
 ) (
 	input sys_clk,
 	input sys_rst,
@@ -99,7 +100,18 @@ module conbus5x6 #(
 	output		s3_we_o,
 	output		s3_cyc_o,
 	output		s3_stb_o,
-	input		s3_ack_i
+	input		s3_ack_i,
+	
+	// Slave 3 Interface
+	input	[31:0]	s4_dat_i,
+	output	[31:0]	s4_dat_o,
+	output	[31:0]	s4_adr_o,
+	output	[2:0]	s4_cti_o,
+	output	[3:0]	s4_sel_o,
+	output		s4_we_o,
+	output		s4_cyc_o,
+	output		s4_stb_o,
+	input		s4_ack_i
 );
 
 // address + CTI + data + byte select
@@ -120,7 +132,7 @@ assign m0_ack_o = i_bus_ack & (gnt == 1'd0);
 assign m1_dat_o = i_dat_s;
 assign m1_ack_o = i_bus_ack & (gnt == 1'd1);
 
-assign i_bus_ack = s0_ack_i | s1_ack_i | s2_ack_i | s3_ack_i;
+assign i_bus_ack = s0_ack_i | s1_ack_i | s2_ack_i | s3_ack_i | s4_ack_i;
 
 // slave 0
 assign {s0_adr_o, s0_cti_o, s0_sel_o, s0_dat_o, s0_we_o, s0_cyc_o, s0_stb_o} 
@@ -136,6 +148,10 @@ assign {s2_adr_o, s2_cti_o, s2_sel_o, s2_dat_o, s2_we_o, s2_cyc_o, s2_stb_o}
 	
 // slave 3
 assign {s3_adr_o, s3_cti_o, s3_sel_o, s3_dat_o, s3_we_o, s3_cyc_o, s3_stb_o} 
+	= {i_bus_m[`mbusw_ls -1:2], i_bus_m[1] & slave_sel[3], i_bus_m[0]};
+	
+// slave 4
+assign {s4_adr_o, s4_cti_o, s4_sel_o, s4_dat_o, s4_we_o, s4_cyc_o, s4_stb_o} 
 	= {i_bus_m[`mbusw_ls -1:2], i_bus_m[1] & slave_sel[3], i_bus_m[0]};
 	
 always @(*) begin
@@ -155,7 +171,8 @@ assign i_dat_s =
 		 ({32{slave_sel_r[0]}} & s0_dat_i)
 		|({32{slave_sel_r[1]}} & s1_dat_i)
 		|({32{slave_sel_r[2]}} & s2_dat_i)
-		|({32{slave_sel_r[3]}} & s3_dat_i);
+		|({32{slave_sel_r[3]}} & s3_dat_i)
+		|({32{slave_sel_r[4]}} & s4_dat_i);
 
 wire [1:0] req = {m1_cyc_i, m0_cyc_i};
 
@@ -170,5 +187,6 @@ assign slave_sel[0] = (i_bus_m[`mbusw_ls-2 : `mbusw_ls-3-1] == s0_addr);
 assign slave_sel[1] = (i_bus_m[`mbusw_ls-2 : `mbusw_ls-3-1] == s1_addr);
 assign slave_sel[2] = (i_bus_m[`mbusw_ls-2 : `mbusw_ls-3-1] == s2_addr);
 assign slave_sel[3] = (i_bus_m[`mbusw_ls-2 : `mbusw_ls-3-1] == s3_addr);
+assign slave_sel[4] = (i_bus_m[`mbusw_ls-2 : `mbusw_ls-3-1] == s4_addr);
 
 endmodule

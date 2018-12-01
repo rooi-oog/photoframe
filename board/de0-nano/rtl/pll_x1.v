@@ -105,7 +105,7 @@ module pll_x1 (
 		altpll_component.loop_filter_r_bits = 27,
 		altpll_component.lpm_hint = "CBX_MODULE_PREFIX=pll_x1",
 		altpll_component.lpm_type = "altpll",
-		altpll_component.m = 12,
+		altpll_component.m = 8,
 		altpll_component.m_initial = 1,
 		altpll_component.m_ph = 0,
 		altpll_component.n = 1,
@@ -157,13 +157,13 @@ module pll_x1 (
 		altpll_component.width_clock = 5,
 		altpll_component.c0_high = 3,
 		altpll_component.c0_initial = 1,
-		altpll_component.c0_low = 3,
-		altpll_component.c0_mode = "even",
+		altpll_component.c0_low = 2,
+		altpll_component.c0_mode = "odd",
 		altpll_component.c0_ph = 0,
 		altpll_component.c1_high = 3,
 		altpll_component.c1_initial = 1,
-		altpll_component.c1_low = 3,
-		altpll_component.c1_mode = "even",
+		altpll_component.c1_low = 2,
+		altpll_component.c1_mode = "odd",
 		altpll_component.c1_ph = 0,
 		altpll_component.clk0_counter = "c0",
 		altpll_component.clk1_counter = "c1";
@@ -194,8 +194,8 @@ endmodule
 // Retrieval info: PRIVATE: DIV_FACTOR1 NUMERIC "2"
 // Retrieval info: PRIVATE: DUTY_CYCLE0 STRING "50.00000000"
 // Retrieval info: PRIVATE: DUTY_CYCLE1 STRING "50.00000000"
-// Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "100.000000"
-// Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE1 STRING "100.000000"
+// Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "80.000000"
+// Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE1 STRING "80.000000"
 // Retrieval info: PRIVATE: EXPLICIT_SWITCHOVER_COUNTER STRING "0"
 // Retrieval info: PRIVATE: EXT_FEEDBACK_RADIO STRING "0"
 // Retrieval info: PRIVATE: GLOCKED_COUNTER_EDIT_CHANGED STRING "1"
@@ -223,8 +223,8 @@ endmodule
 // Retrieval info: PRIVATE: MULT_FACTOR0 NUMERIC "1"
 // Retrieval info: PRIVATE: MULT_FACTOR1 NUMERIC "7"
 // Retrieval info: PRIVATE: NORMAL_MODE_RADIO STRING "0"
-// Retrieval info: PRIVATE: OUTPUT_FREQ0 STRING "100.00000000"
-// Retrieval info: PRIVATE: OUTPUT_FREQ1 STRING "100.00000000"
+// Retrieval info: PRIVATE: OUTPUT_FREQ0 STRING "80.00000000"
+// Retrieval info: PRIVATE: OUTPUT_FREQ1 STRING "80.00000000"
 // Retrieval info: PRIVATE: OUTPUT_FREQ_MODE0 STRING "1"
 // Retrieval info: PRIVATE: OUTPUT_FREQ_MODE1 STRING "1"
 // Retrieval info: PRIVATE: OUTPUT_FREQ_UNIT0 STRING "MHz"
@@ -276,7 +276,7 @@ endmodule
 // Retrieval info: CONSTANT: LOOP_FILTER_C_BITS NUMERIC "0"
 // Retrieval info: CONSTANT: LOOP_FILTER_R_BITS NUMERIC "27"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "altpll"
-// Retrieval info: CONSTANT: M NUMERIC "12"
+// Retrieval info: CONSTANT: M NUMERIC "8"
 // Retrieval info: CONSTANT: M_INITIAL NUMERIC "1"
 // Retrieval info: CONSTANT: M_PH NUMERIC "0"
 // Retrieval info: CONSTANT: N NUMERIC "1"
@@ -328,13 +328,13 @@ endmodule
 // Retrieval info: CONSTANT: WIDTH_CLOCK NUMERIC "5"
 // Retrieval info: CONSTANT: c0_high NUMERIC "3"
 // Retrieval info: CONSTANT: c0_initial NUMERIC "1"
-// Retrieval info: CONSTANT: c0_low NUMERIC "3"
-// Retrieval info: CONSTANT: c0_mode STRING "even"
+// Retrieval info: CONSTANT: c0_low NUMERIC "2"
+// Retrieval info: CONSTANT: c0_mode STRING "odd"
 // Retrieval info: CONSTANT: c0_ph NUMERIC "0"
 // Retrieval info: CONSTANT: c1_high NUMERIC "3"
 // Retrieval info: CONSTANT: c1_initial NUMERIC "1"
-// Retrieval info: CONSTANT: c1_low NUMERIC "3"
-// Retrieval info: CONSTANT: c1_mode STRING "even"
+// Retrieval info: CONSTANT: c1_low NUMERIC "2"
+// Retrieval info: CONSTANT: c1_mode STRING "odd"
 // Retrieval info: CONSTANT: c1_ph NUMERIC "0"
 // Retrieval info: CONSTANT: clk0_counter STRING "c0"
 // Retrieval info: CONSTANT: clk1_counter STRING "c1"

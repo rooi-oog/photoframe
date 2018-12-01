@@ -101,9 +101,29 @@ static void load_firmware (uint32_t *dest, uint32_t *src, uint32_t dwords)
 	while (dwords-- > 0)
 		*dest++ = *src++;
 }
+
+#include "delay.h"
 	
 int main (void)
 {	
+	/* Mask all interrupts */
+	irq_setmask (0);
+	/* Global interrupt enable */
+	irq_enable (1);	
+	/* UART initialization */
+	uart_init ();
+	
+	printf ("hELLO!\n");
+	
+	for (;;) {
+		CSR_GPIO_OUT = 0;
+		CSR_GPIO_OUT = LED0;
+		delay_ms (1000);
+		CSR_GPIO_OUT = 0;
+		CSR_GPIO_OUT = LED1;
+		delay_ms (1000);
+	}
+	
 	struct fws fw;
 	uint32_t *firmware_source = (uint32_t *) FLASH_BLOCK_OFFSET;
 	uint32_t firmware_length = FLASH_AVAILABLE_SIZE;

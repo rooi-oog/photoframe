@@ -5,25 +5,25 @@ cpu			:= $(shell echo $(CPU) | tr A-Z a-z)
 
 # ------------------------------------------------------------------------------------------- #
 # Programm name
-PROG_NAME	:= bios
+PROG_NAME	:= gdbstub
 
 # where built files will be stored
-TARGET_DIR	:= build
+TARGET_DIR	:= .
 TARGET		:= $(PROG_NAME).elf
 
 # Main programm sources
-OBJS		+= $(patsubst %.S, %.o, $(shell find -L src -type f -name "*.S"))
-OBJS		+= $(patsubst %.c, %.o, $(shell find -L src -type f -name "*.c"))
+OBJS		+= $(patsubst %.S, %.o, $(shell find -L -type f -name "*.S"))
+OBJS		+= $(patsubst %.c, %.o, $(shell find -L -type f -name "*.c"))
 
 # Optimization / debug flags
-OPT			:= -O9 -g3
+OPT			:= -Os
 
 # Common C and Linker flags
 FLAGS		:= $(MCPU) $(OPT) -D$(CPU) -std=c11 
 FLAGS		+= -Wstrict-prototypes -Wold-style-definition -Wshadow
 FLAGS		+= -mbarrel-shift-enabled -mmultiply-enabled -mdivide-enabled
 FLAGS		+= -fno-builtin -fsigned-char -msign-extend-enabled 
-FLAGS		+= -fsingle-precision-constant -Wall -Wextra -Werror 
+FLAGS		+= -fsingle-precision-constant -Wall -Wextra #-Werror 
 
 # C compiler flags
 CFLAGS		:= $(FLAGS)
@@ -31,7 +31,7 @@ CFLAGS		:= $(FLAGS)
 # Linker flags
 LDFLAGS		:= -Xlinker --gc-sections
 LDSCRIPT	+= -T "linker.ld"
-LDFLAGS 	+= -L "ldscripts/" $(LDSCRIPT) -Wl,-Map,"$(TARGET_DIR)/$(PROG_NAME).map"
+LDFLAGS 	+= $(LDSCRIPT) -Wl,-Map,"$(TARGET_DIR)/$(PROG_NAME).map"
 
 # Include directories
 INCLUDE		:= src ../common ../lib
@@ -71,7 +71,12 @@ $(TARGET): $(OBJS)
 clean:
 	@echo "Cleaning..."
 	@rm -rf $(OBJS)
-	@rm -rf $(TARGET_DIR)/*
+	@rm -rf $(TARGET_DIR)/*.asm
+	@rm -rf $(TARGET_DIR)/*.bin
+	@rm -rf $(TARGET_DIR)/*.hex
+	@rm -rf $(TARGET_DIR)/*.map
+	@rm -rf $(TARGET_DIR)/*.elf
 	
 .PHONY:
-	all clean pgm debug
+	all clean pgm debug	
+
