@@ -1,0 +1,200 @@
+--altlvds_tx CBX_DECLARE_ALL_CONNECTED_PORTS="OFF" COMMON_RX_TX_PLL="OFF" CORECLOCK_DIVIDE_BY=2 DESERIALIZATION_FACTOR=7 DEVICE_FAMILY="Cyclone IV E" DIFFERENTIAL_DRIVE=0 ENABLE_CLK_LATENCY="OFF" IMPLEMENT_IN_LES="ON" INCLOCK_BOOST=0 INCLOCK_DATA_ALIGNMENT="EDGE_ALIGNED" INCLOCK_PERIOD=20000 INCLOCK_PHASE_SHIFT=0 NUMBER_OF_CHANNELS=5 OUTCLOCK_ALIGNMENT="EDGE_ALIGNED" OUTCLOCK_DUTY_CYCLE=50 OUTCLOCK_PHASE_SHIFT=0 OUTPUT_DATA_RATE=350 PLL_SELF_RESET_ON_LOSS_LOCK="ON" REGISTERED_INPUT="TX_CORECLK" USE_EXTERNAL_PLL="OFF" USE_NO_PHASE_SHIFT="ON" pll_areset tx_in tx_inclock tx_out CARRY_CHAIN="MANUAL" CARRY_CHAIN_LENGTH=48
+--VERSION_BEGIN 18.0 cbx_altaccumulate 2018:04:18:06:50:44:SJ cbx_altclkbuf 2018:04:18:06:50:44:SJ cbx_altddio_in 2018:04:18:06:50:44:SJ cbx_altddio_out 2018:04:18:06:50:44:SJ cbx_altera_syncram_nd_impl 2018:04:18:06:50:44:SJ cbx_altiobuf_bidir 2018:04:18:06:50:44:SJ cbx_altiobuf_in 2018:04:18:06:50:44:SJ cbx_altiobuf_out 2018:04:18:06:50:44:SJ cbx_altlvds_tx 2018:04:18:06:50:44:SJ cbx_altpll 2018:04:18:06:50:44:SJ cbx_altsyncram 2018:04:18:06:50:44:SJ cbx_arriav 2018:04:18:06:50:43:SJ cbx_cyclone 2018:04:18:06:50:44:SJ cbx_cycloneii 2018:04:18:06:50:44:SJ cbx_lpm_add_sub 2018:04:18:06:50:44:SJ cbx_lpm_compare 2018:04:18:06:50:44:SJ cbx_lpm_counter 2018:04:18:06:50:44:SJ cbx_lpm_decode 2018:04:18:06:50:44:SJ cbx_lpm_mux 2018:04:18:06:50:44:SJ cbx_lpm_shiftreg 2018:04:18:06:50:44:SJ cbx_maxii 2018:04:18:06:50:44:SJ cbx_mgl 2018:04:18:07:37:08:SJ cbx_nadder 2018:04:18:06:50:44:SJ cbx_stratix 2018:04:18:06:50:44:SJ cbx_stratixii 2018:04:18:06:50:44:SJ cbx_stratixiii 2018:04:18:06:50:44:SJ cbx_stratixv 2018:04:18:06:50:44:SJ cbx_util_mgl 2018:04:18:06:50:44:SJ  VERSION_END
+
+
+-- Copyright (C) 2018  Intel Corporation. All rights reserved.
+--  Your use of Intel Corporation's design tools, logic functions 
+--  and other software and tools, and its AMPP partner logic 
+--  functions, and any output files from any of the foregoing 
+--  (including device programming or simulation files), and any 
+--  associated documentation or information are expressly subject 
+--  to the terms and conditions of the Intel Program License 
+--  Subscription Agreement, the Intel Quartus Prime License Agreement,
+--  the Intel FPGA IP License Agreement, or other applicable license
+--  agreement, including, without limitation, that your use is for
+--  the sole purpose of programming logic devices manufactured by
+--  Intel and sold by Intel or its authorized distributors.  Please
+--  refer to the applicable agreement for further details.
+
+
+FUNCTION ddio_out_2qb (aclr, datain_h[4..0], datain_l[4..0], outclock)
+RETURNS ( dataout[4..0]);
+FUNCTION cmpr_iq9 (dataa[2..0], datab[2..0])
+RETURNS ( aeb);
+FUNCTION cntr_djb (aclr, clock, updown)
+RETURNS ( q[2..0]);
+FUNCTION shift_reg_4hb (aclr, clock, data[6..0], load, shiftin)
+RETURNS ( shiftout);
+FUNCTION cycloneive_pll (areset, clkswitch, configupdate, fbin, inclk[1..0], pfdena, phasecounterselect[phasecounterselect_width-1..0], phasestep, phaseupdown, scanclk, scanclkena, scandata)
+WITH ( AUTO_SETTINGS, BANDWIDTH, BANDWIDTH_TYPE, C0_HIGH, C0_INITIAL, C0_LOW, C0_MODE, C0_PH, C0_TEST_SOURCE, C1_HIGH, C1_INITIAL, C1_LOW, C1_MODE, C1_PH, C1_TEST_SOURCE, C1_USE_CASC_IN, C2_HIGH, C2_INITIAL, C2_LOW, C2_MODE, C2_PH, C2_TEST_SOURCE, C2_USE_CASC_IN, C3_HIGH, C3_INITIAL, C3_LOW, C3_MODE, C3_PH, C3_TEST_SOURCE, C3_USE_CASC_IN, C4_HIGH, C4_INITIAL, C4_LOW, C4_MODE, C4_PH, C4_TEST_SOURCE, C4_USE_CASC_IN, CHARGE_PUMP_CURRENT, CHARGE_PUMP_CURRENT_BITS, CLK0_COUNTER, CLK0_DIVIDE_BY, CLK0_DUTY_CYCLE, CLK0_MULTIPLY_BY, CLK0_OUTPUT_FREQUENCY, CLK0_PHASE_SHIFT, CLK0_PHASE_SHIFT_NUM, clk0_use_even_counter_mode, clk0_use_even_counter_value, CLK1_COUNTER, CLK1_DIVIDE_BY, CLK1_DUTY_CYCLE, CLK1_MULTIPLY_BY, CLK1_OUTPUT_FREQUENCY, CLK1_PHASE_SHIFT, CLK1_PHASE_SHIFT_NUM, clk1_use_even_counter_mode, clk1_use_even_counter_value, CLK2_COUNTER, CLK2_DIVIDE_BY, CLK2_DUTY_CYCLE, CLK2_MULTIPLY_BY, CLK2_OUTPUT_FREQUENCY, CLK2_PHASE_SHIFT, CLK2_PHASE_SHIFT_NUM, clk2_use_even_counter_mode, clk2_use_even_counter_value, CLK3_COUNTER, CLK3_DIVIDE_BY, CLK3_DUTY_CYCLE, CLK3_MULTIPLY_BY, CLK3_OUTPUT_FREQUENCY, CLK3_PHASE_SHIFT, CLK3_PHASE_SHIFT_NUM, clk3_use_even_counter_mode, clk3_use_even_counter_value, CLK4_COUNTER, CLK4_DIVIDE_BY, CLK4_DUTY_CYCLE, CLK4_MULTIPLY_BY, CLK4_OUTPUT_FREQUENCY, CLK4_PHASE_SHIFT, CLK4_PHASE_SHIFT_NUM, clk4_use_even_counter_mode, clk4_use_even_counter_value, CLKOUT_WIDTH = 5, COMPENSATE_CLOCK, ENABLE_SWITCH_OVER_COUNTER, INCLK0_INPUT_FREQUENCY, INCLK1_INPUT_FREQUENCY, LOCK_HIGH, LOCK_LOW, lock_window_ui, lock_window_ui_bits, LOOP_FILTER_C, LOOP_FILTER_C_BITS, LOOP_FILTER_R, LOOP_FILTER_R_BITS, M, M_INITIAL, M_PH, M_TEST_SOURCE, N, OPERATION_MODE, PFD_MAX, PFD_MIN, PHASECOUNTERSELECT_WIDTH = 3, PLL_COMPENSATION_DELAY, PLL_TYPE, SCAN_CHAIN_MIF_FILE, self_reset_on_loss_lock, SIMULATION_TYPE, SWITCH_OVER_COUNTER, SWITCH_OVER_TYPE, TEST_BYPASS_LOCK_DETECT, USE_DC_COUPLING, VCO_CENTER, VCO_DIVIDE_BY, vco_frequency_control, VCO_MAX, VCO_MIN, VCO_MULTIPLY_BY, vco_phase_shift_step, VCO_POST_SCALE, VCO_RANGE_DETECTOR_HIGH_BITS, VCO_RANGE_DETECTOR_LOW_BITS)
+RETURNS ( activeclock, clk[CLKOUT_WIDTH-1..0], clkbad[1..0], fbout, locked, phasedone, scandataout, scandone, vcooverrange, vcounderrange);
+
+--synthesis_resources = cycloneive_pll 1 IO 5 lut 3 reg 268 
+OPTIONS ALTERA_INTERNAL_OPTION = "{-to lvds_tx_pll} AUTO_MERGE_PLLS=OFF";
+
+SUBDESIGN lvds_tx_1iq1
+( 
+	pll_areset	:	input;
+	tx_in[34..0]	:	input;
+	tx_inclock	:	input;
+	tx_out[4..0]	:	output;
+) 
+VARIABLE 
+	ddio_out : ddio_out_2qb;
+	dffe11 : dffe;
+	dffe3a[2..0] : dffe;
+	dffe4a[2..0] : dffe;
+	dffe5a[2..0] : dffe;
+	dffe6a[2..0] : dffe;
+	dffe7a[2..0] : dffe;
+	dffe8a[2..0] : dffe;
+	h_sync_a[34..0] : dffe;
+	h_sync_b[34..0] : dffe;
+	l_sync_a[34..0] : dffe;
+	sync_dffe1a : dffe;
+	tx_reg[69..0] : dffe;
+	cmpr10 : cmpr_iq9;
+	cmpr9 : cmpr_iq9;
+	cntr2 : cntr_djb;
+	shift_reg12 : shift_reg_4hb;
+	shift_reg13 : shift_reg_4hb;
+	shift_reg14 : shift_reg_4hb;
+	shift_reg15 : shift_reg_4hb;
+	shift_reg16 : shift_reg_4hb;
+	shift_reg17 : shift_reg_4hb;
+	shift_reg18 : shift_reg_4hb;
+	shift_reg19 : shift_reg_4hb;
+	shift_reg20 : shift_reg_4hb;
+	shift_reg21 : shift_reg_4hb;
+	lvds_tx_pll : cycloneive_pll
+		WITH (
+			CLK0_DIVIDE_BY = 2,
+			CLK0_MULTIPLY_BY = 7,
+			CLK0_PHASE_SHIFT = "-1428",
+			CLK1_DIVIDE_BY = 14,
+			CLK1_MULTIPLY_BY = 7,
+			CLK1_PHASE_SHIFT = "-1428",
+			INCLK0_INPUT_FREQUENCY = 20000,
+			OPERATION_MODE = "normal",
+			self_reset_on_loss_lock = "on"
+		);
+	fast_clock	: WIRE;
+	h_input[4..0]	: WIRE;
+	l_input[4..0]	: WIRE;
+	load_signal	: WIRE;
+	slow_clock	: WIRE;
+	tx_align_wire[69..0]	: WIRE;
+	tx_in_wire[69..0]	: WIRE;
+	w_reset	: WIRE;
+
+BEGIN 
+	ddio_out.aclr = w_reset;
+	ddio_out.datain_h[] = l_input[];
+	ddio_out.datain_l[] = h_input[];
+	ddio_out.outclock = fast_clock;
+	dffe11.clk = fast_clock;
+	dffe11.d = ((cmpr9.aeb & sync_dffe1a.q) # (cmpr10.aeb & (! sync_dffe1a.q)));
+	dffe3a[].clk = fast_clock;
+	dffe3a[].d = cntr2.q[];
+	dffe3a[].ena = sync_dffe1a.q;
+	dffe4a[].clk = fast_clock;
+	dffe4a[].d = cntr2.q[];
+	dffe4a[].ena = (! sync_dffe1a.q);
+	dffe5a[].clk = fast_clock;
+	dffe5a[].d = dffe3a[].q;
+	dffe5a[].ena = sync_dffe1a.q;
+	dffe6a[].clk = fast_clock;
+	dffe6a[].d = dffe4a[].q;
+	dffe6a[].ena = (! sync_dffe1a.q);
+	dffe7a[].clk = fast_clock;
+	dffe7a[].d = dffe5a[].q;
+	dffe7a[].ena = (! sync_dffe1a.q);
+	dffe8a[].clk = fast_clock;
+	dffe8a[].d = dffe6a[].q;
+	dffe8a[].ena = sync_dffe1a.q;
+	h_sync_a[].clk = slow_clock;
+	h_sync_a[].clrn = (! w_reset);
+	h_sync_a[].d = tx_in[];
+	h_sync_b[].clk = (! slow_clock);
+	h_sync_b[].clrn = (! w_reset);
+	h_sync_b[].d = h_sync_a[].q;
+	l_sync_a[].clk = (! slow_clock);
+	l_sync_a[].clrn = (! w_reset);
+	l_sync_a[].d = tx_in[];
+	sync_dffe1a.clk = slow_clock;
+	sync_dffe1a.clrn = (! w_reset);
+	sync_dffe1a.d = (! sync_dffe1a.q);
+	tx_reg[].clk = slow_clock;
+	tx_reg[].clrn = (! w_reset);
+	tx_reg[].d = tx_align_wire[];
+	cmpr10.dataa[] = dffe4a[].q;
+	cmpr10.datab[] = dffe8a[].q;
+	cmpr9.dataa[] = dffe3a[].q;
+	cmpr9.datab[] = dffe7a[].q;
+	cntr2.aclr = w_reset;
+	cntr2.clock = fast_clock;
+	cntr2.updown = sync_dffe1a.q;
+	shift_reg12.aclr = w_reset;
+	shift_reg12.clock = fast_clock;
+	shift_reg12.data[] = ( tx_in_wire[1..1], tx_in_wire[3..3], tx_in_wire[5..5], tx_in_wire[7..7], tx_in_wire[9..9], tx_in_wire[11..11], tx_in_wire[13..13]);
+	shift_reg12.load = load_signal;
+	shift_reg12.shiftin = B"0";
+	shift_reg13.aclr = w_reset;
+	shift_reg13.clock = fast_clock;
+	shift_reg13.data[] = ( tx_in_wire[0..0], tx_in_wire[2..2], tx_in_wire[4..4], tx_in_wire[6..6], tx_in_wire[8..8], tx_in_wire[10..10], tx_in_wire[12..12]);
+	shift_reg13.load = load_signal;
+	shift_reg13.shiftin = B"0";
+	shift_reg14.aclr = w_reset;
+	shift_reg14.clock = fast_clock;
+	shift_reg14.data[] = ( tx_in_wire[15..15], tx_in_wire[17..17], tx_in_wire[19..19], tx_in_wire[21..21], tx_in_wire[23..23], tx_in_wire[25..25], tx_in_wire[27..27]);
+	shift_reg14.load = load_signal;
+	shift_reg14.shiftin = B"0";
+	shift_reg15.aclr = w_reset;
+	shift_reg15.clock = fast_clock;
+	shift_reg15.data[] = ( tx_in_wire[14..14], tx_in_wire[16..16], tx_in_wire[18..18], tx_in_wire[20..20], tx_in_wire[22..22], tx_in_wire[24..24], tx_in_wire[26..26]);
+	shift_reg15.load = load_signal;
+	shift_reg15.shiftin = B"0";
+	shift_reg16.aclr = w_reset;
+	shift_reg16.clock = fast_clock;
+	shift_reg16.data[] = ( tx_in_wire[29..29], tx_in_wire[31..31], tx_in_wire[33..33], tx_in_wire[35..35], tx_in_wire[37..37], tx_in_wire[39..39], tx_in_wire[41..41]);
+	shift_reg16.load = load_signal;
+	shift_reg16.shiftin = B"0";
+	shift_reg17.aclr = w_reset;
+	shift_reg17.clock = fast_clock;
+	shift_reg17.data[] = ( tx_in_wire[28..28], tx_in_wire[30..30], tx_in_wire[32..32], tx_in_wire[34..34], tx_in_wire[36..36], tx_in_wire[38..38], tx_in_wire[40..40]);
+	shift_reg17.load = load_signal;
+	shift_reg17.shiftin = B"0";
+	shift_reg18.aclr = w_reset;
+	shift_reg18.clock = fast_clock;
+	shift_reg18.data[] = ( tx_in_wire[43..43], tx_in_wire[45..45], tx_in_wire[47..47], tx_in_wire[49..49], tx_in_wire[51..51], tx_in_wire[53..53], tx_in_wire[55..55]);
+	shift_reg18.load = load_signal;
+	shift_reg18.shiftin = B"0";
+	shift_reg19.aclr = w_reset;
+	shift_reg19.clock = fast_clock;
+	shift_reg19.data[] = ( tx_in_wire[42..42], tx_in_wire[44..44], tx_in_wire[46..46], tx_in_wire[48..48], tx_in_wire[50..50], tx_in_wire[52..52], tx_in_wire[54..54]);
+	shift_reg19.load = load_signal;
+	shift_reg19.shiftin = B"0";
+	shift_reg20.aclr = w_reset;
+	shift_reg20.clock = fast_clock;
+	shift_reg20.data[] = ( tx_in_wire[57..57], tx_in_wire[59..59], tx_in_wire[61..61], tx_in_wire[63..63], tx_in_wire[65..65], tx_in_wire[67..67], tx_in_wire[69..69]);
+	shift_reg20.load = load_signal;
+	shift_reg20.shiftin = B"0";
+	shift_reg21.aclr = w_reset;
+	shift_reg21.clock = fast_clock;
+	shift_reg21.data[] = ( tx_in_wire[56..56], tx_in_wire[58..58], tx_in_wire[60..60], tx_in_wire[62..62], tx_in_wire[64..64], tx_in_wire[66..66], tx_in_wire[68..68]);
+	shift_reg21.load = load_signal;
+	shift_reg21.shiftin = B"0";
+	lvds_tx_pll.areset = pll_areset;
+	lvds_tx_pll.fbin = lvds_tx_pll.fbout;
+	lvds_tx_pll.inclk[] = ( B"0", tx_inclock);
+	fast_clock = lvds_tx_pll.clk[0..0];
+	h_input[] = ( shift_reg21.shiftout, shift_reg19.shiftout, shift_reg17.shiftout, shift_reg15.shiftout, shift_reg13.shiftout);
+	l_input[] = ( shift_reg20.shiftout, shift_reg18.shiftout, shift_reg16.shiftout, shift_reg14.shiftout, shift_reg12.shiftout);
+	load_signal = dffe11.q;
+	slow_clock = lvds_tx_pll.clk[1..1];
+	tx_align_wire[] = ( h_sync_b[34..28].q, l_sync_a[34..28].q, h_sync_b[27..21].q, l_sync_a[27..21].q, h_sync_b[20..14].q, l_sync_a[20..14].q, h_sync_b[13..7].q, l_sync_a[13..7].q, h_sync_b[6..0].q, l_sync_a[6..0].q);
+	tx_in_wire[] = tx_reg[].q;
+	tx_out[] = ddio_out.dataout[];
+	w_reset = pll_areset;
+END;
+--VALID FILE

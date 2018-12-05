@@ -1,5 +1,5 @@
 [Eagle]
-Version="09 02 02"
+Version="09 02 01"
 Platform="Linux"
 Globals="Globals"
 Desktop="Desktop"
@@ -402,7 +402,6 @@ UsedLibrary="/home/alexx/eagle/lbr/imported.lbr"
 UsedLibrary="/home/alexx/eagle/lbr/m-pad-2.1.lbr"
 UsedLibrary="/home/alexx/eagle/lbr/micro-stm.lbr"
 UsedLibrary="/home/alexx/eagle/lbr/myrcl.lbr"
-UsedLibrary="/home/alexx/eagle/lbr/pliss.lbr"
 UsedLibrary="/home/alexx/eagle/lbr/raspberrypi_cm.lbr"
 UsedLibrary="/home/alexx/eagle/lbr/rtl8201bl.lbr"
 UsedLibrary="/home/alexx/eagle/lbr/sd-mmc.lbr"
@@ -418,5 +417,5 @@ Type="Control Panel"
 Number=0
 
 [Desktop]
-Screen="1440 900"
+Screen="1680 1050"
 Window="Win_1"
