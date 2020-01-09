@@ -64,7 +64,7 @@ module fpd_link #(
 /* LCD Display Controller & Framebuffer                                   */
 /*------------------------------------------------------------------------*/
 	vgafb #(
-		.csr_addr ( csr_addr	)
+		.csr_addr 		( csr_addr	)
 	) vgafb (
 		.sys_clk		( sys_clk	),
 		.sys_rst		( sys_rst	),		
@@ -95,20 +95,20 @@ module fpd_link #(
 	video_lvds #(
 		.TECHNOLOGY	( TECHNOLOGY )
 	) lvds (
-		.sys_rst			( sys_rst			),
-		.clk_x1				( pixel_clk			),		
-		.clk_3x5			( serial_clk		),
+		.sys_rst	( sys_rst			),
+		.clk_x1		( pixel_clk			),		
+		.clk_3x5	( serial_clk		),
 							
-		.DE					( de				),
-		.R					( r					),
-		.G					( g					),
-		.B					( b					),
+		.DE			( de				),
+		.R			( r					),
+		.G			( g					),
+		.B			( b					),
 							
-		.rx0				( rx0				),
-		.rx1				( rx1				),
-		.rx2				( rx2				),
-		.rx3				( rx3				),
-		.clk				( clk				)
+		.rx0		( rx0				),
+		.rx1		( rx1				),
+		.rx2		( rx2				),
+		.rx3		( rx3				),
+		.clk		( clk				)
 	);
 	
 endmodule

@@ -72,28 +72,17 @@ module pframe (
 	
 /*------------------------------------------------------------------------*/
 /* Wishbone master wires                                                  */
-/*------------------------------------------------------------------------*/	
-	wire [31:0]	cpuibus_adr;
-	wire [2:0]	cpuibus_cti;
-	wire [31:0]	cpuibus_dat_r;
-	wire		cpuibus_cyc;
-	wire		cpuibus_stb;
-	wire		cpuibus_ack;
-`ifdef CFG_HW_DEBUG_ENABLED	
-	wire [31:0]	cpuibus_dat_w;
-	wire [3:0]	cpuibus_sel;	
-	wire		cpuibus_we;
-`endif
+/*------------------------------------------------------------------------*/
 
-	wire [31:0]	cpudbus_adr;
-	wire [2:0]	cpudbus_cti;
-	wire [31:0]	cpudbus_dat_r;
-	wire [31:0]	cpudbus_dat_w;
-	wire [3:0]	cpudbus_sel;
-	wire		cpudbus_we;
-	wire		cpudbus_cyc;
-	wire		cpudbus_stb;
-	wire		cpudbus_ack;	
+	wire [31:0]	cpubus_adr;
+	wire [2:0]	cpubus_cti	= 3'b000;
+	wire [31:0]	cpubus_dat_r;
+	wire [31:0]	cpubus_dat_w;
+	wire [3:0]	cpubus_sel;
+	wire		cpubus_we;
+	wire		cpubus_cyc;
+	wire		cpubus_stb;
+	wire		cpubus_ack;
 
 /*------------------------------------------------------------------------*/
 /* Wishbone slave wires                                                   */
@@ -148,7 +137,7 @@ module pframe (
 /*------------------------------------------------------------------------*/	
 	wire		sys_clk;								// 100MHz
 	wire		sdram_clk;								// 100MHz
-	wire		pixel_clk;								// 50MHz
+	wire		pixel_clk;								// 50MHz should be as low as possible 'cause we display a static image
 	wire		serial_clk;								// 175MHz
 									
 	wire [1:0]	clk_locked;
@@ -214,32 +203,26 @@ module pframe (
 		.sys_rst(sys_rst),
 
 		// Master 0
-		.m0_dat_o(cpuibus_dat_r),
-		.m0_adr_i(cpuibus_adr),
-		.m0_cti_i(cpuibus_cti),
-`ifdef CFG_HW_DEBUG_ENABLED		
-		.m0_dat_i(cpuibus_dat_w),
-		.m0_we_i(cpuibus_we),
-		.m0_sel_i(cpuibus_sel),
-`else
-		.m0_dat_i(32'hx),
-		.m0_we_i(1'b0),
-		.m0_sel_i(4'hf),		
-`endif		
-		.m0_cyc_i(cpuibus_cyc),
-		.m0_stb_i(cpuibus_stb),
-		.m0_ack_o(cpuibus_ack),
+		.m0_dat_o	(	),
+		.m0_adr_i	( 32'hx	),
+		.m0_cti_i	( 3'hx	),
+		.m0_we_i	( 1'bx	),
+		.m0_dat_i	( 32'hx	),
+		.m0_sel_i	( 4'hf	),		
+		.m0_cyc_i	( 1'b0	),
+		.m0_stb_i	( 1'b0	),
+		.m0_ack_o	(	),
 		
 		// Master 1
-		.m1_dat_i(cpudbus_dat_w),
-		.m1_dat_o(cpudbus_dat_r),
-		.m1_adr_i(cpudbus_adr),
-		.m1_cti_i(cpudbus_cti),
-		.m1_we_i(cpudbus_we),
-		.m1_sel_i(cpudbus_sel),
-		.m1_cyc_i(cpudbus_cyc),
-		.m1_stb_i(cpudbus_stb),
-		.m1_ack_o(cpudbus_ack),
+		.m1_dat_i	(cpubus_dat_w),
+		.m1_dat_o	(cpubus_dat_r),
+		.m1_adr_i	(cpubus_adr),
+		.m1_cti_i	(cpubus_cti),
+		.m1_we_i	(cpubus_we),
+		.m1_sel_i	(cpubus_sel),
+		.m1_cyc_i	(cpubus_cyc),
+		.m1_stb_i	(cpubus_stb),
+		.m1_ack_o	(cpubus_ack),
 
 		// Slave 0
 		.s0_dat_i(wb_rom_rdt),
@@ -366,54 +349,75 @@ assign cpu_interrupt = {16'd0,
 };
 
 /*------------------------------------------------------------------------*/
-/* Lattice Mico32 CPU                                                     */
+/* PicoRV32 CPU                                                           */
 /*------------------------------------------------------------------------*/
-	wire ext_break;
-	wire bus_errors_en;
 
-	lm32_top cpu (
-		.clk_i		( sys_clk		),
-		.rst_i		( sys_rst		),
-		.interrupt	( cpu_interrupt	),
+wire [31:0]	cpu_mem_adr;
+wire		cpu_mem_instr;
+assign		cpubus_adr = cpu_mem_adr; //{cpu_mem_instr, cpu_mem_adr [30:0]};
 
-`ifdef CFG_EXTERNAL_BREAK_ENABLED
-		.ext_break	( ext_break		),
-`endif
-	
-		.I_ADR_O	( cpuibus_adr	),
-		.I_DAT_I	( cpuibus_dat_r	),
-`ifdef CFG_HW_DEBUG_ENABLED		
-		.I_DAT_O	( cpuibus_dat_w	),
-		.I_SEL_O	( cpuibus_sel	),
-		.I_WE_O		( cpuibus_we	),
-`else		
-		.I_DAT_O	( ),
-		.I_SEL_O	( ),
-		.I_WE_O		( ),
-`endif
-		.I_CYC_O	( cpuibus_cyc	),
-		.I_STB_O	( cpuibus_stb	),
-		.I_ACK_I	( cpuibus_ack	),
-		.I_CTI_O	( cpuibus_cti	),
-		.I_LOCK_O	( ),
-		.I_BTE_O	( ),
-		.I_ERR_I	( 1'b0			),
-		.I_RTY_I	( 1'b0			),
+picorv32_wb #(
+	.ENABLE_COUNTERS 		( 0	),
+	.ENABLE_COUNTERS64		( 0	),
+	.ENABLE_REGS_16_31		( 1	),
+	.ENABLE_REGS_DUALPORT	( 1	),
+	.TWO_STAGE_SHIFT		( 1	),
+	.BARREL_SHIFTER			( 0	),
+	.TWO_CYCLE_COMPARE		( 0	),
+	.TWO_CYCLE_ALU			( 0	),
+	.COMPRESSED_ISA			( 0	),
+	.CATCH_MISALIGN			( 1	),
+	.CATCH_ILLINSN			( 1	),
+	.ENABLE_PCPI			( 0	),
+	.ENABLE_MUL				( 0	),
+	.ENABLE_FAST_MUL		( 0	),
+	.ENABLE_DIV				( 0	),
+	.ENABLE_IRQ				( 0	),
+	.ENABLE_IRQ_QREGS		( 1	),
+	.ENABLE_IRQ_TIMER		( 1	),
+	.ENABLE_TRACE			( 0	),
+	.REGS_INIT_ZERO			( 0	),
+	.MASKED_IRQ				( 32'h0000_0000	),
+	.LATCHED_IRQ			( 32'hffff_ffff	),
+	.PROGADDR_RESET			( 32'h0000_0000	),
+	.PROGADDR_IRQ			( 32'h0000_0010	),
+	.STACKADDR				( 32'hffff_ffff	)
+) picorv32 (
+	.trap					( ),
 
-		.D_ADR_O	( cpudbus_adr	),
-		.D_DAT_I	( cpudbus_dat_r	),
-		.D_DAT_O	( cpudbus_dat_w	),
-		.D_SEL_O	( cpudbus_sel	),
-		.D_CYC_O	( cpudbus_cyc	),
-		.D_STB_O	( cpudbus_stb	),
-		.D_ACK_I	( cpudbus_ack	),
-		.D_WE_O 	( cpudbus_we	),
-		.D_CTI_O	( cpudbus_cti	),
-		.D_LOCK_O	( ),
-		.D_BTE_O	( ),
-		.D_ERR_I	( 1'b0			),
-		.D_RTY_I	( 1'b0			)
-	);
+	// Wishbone interfaces
+	.wb_rst_i				( sys_rst		),
+	.wb_clk_i				( sys_clk		),
+
+	.wbm_adr_o				( cpu_mem_adr	),
+	.wbm_dat_o				( cpubus_dat_w	),
+	.wbm_dat_i				( cpubus_dat_r	),
+	.wbm_we_o				( cpubus_we		),
+	.wbm_sel_o				( cpubus_sel	),
+	.wbm_stb_o				( cpubus_stb	),
+	.wbm_ack_i				( cpubus_ack	),
+	.wbm_cyc_o				( cpubus_cyc	),
+
+	// Pico Co-Processor Interface (PCPI)
+	.pcpi_valid				(	),
+	.pcpi_insn				(	),
+	.pcpi_rs1				(	),
+	.pcpi_rs2				(	),
+	.pcpi_wr				(	),
+	.pcpi_rd				(	),
+	.pcpi_wait				(	),
+	.pcpi_ready				(	),
+
+	// IRQ interface
+	.irq					(	),
+	.eoi					(	),
+
+	// Trace Interface
+	.trace_valid			(	),
+	.trace_data				(	),
+
+	.mem_instr				( cpu_mem_instr	)
+);
 
 /*------------------------------------------------------------------------*/
 /* Boot read only memory                                                  */
@@ -487,42 +491,6 @@ assign cpu_interrupt = {16'd0,
 	);
 
 /*------------------------------------------------------------------------*/
-/* System controller                                                      */
-/*------------------------------------------------------------------------*/
-	wire pwm1;
-	
-	sysctl #(
-		.csr_addr		( 4'h1				),
-		.ninputs		( 2					),
-		.noutputs		( 4					),
-		.clk_freq		( `CLOCK_FREQUENCY	),
-		.systemid		( 32'h20181125		)
-	) sysctl (
-		.sys_clk		( sys_clk		),
-		.sys_rst		( sys_rst		),
-
-		.gpio_irq		( gpio_irq		),
-		.timer0_irq		( timer0_irq	),
-		.timer1_irq		( timer1_irq	),
-		
-		.pwm0			( lcd_pwm		),
-		.pwm1			( pwm1			),
-
-		.csr_a			( csr_a			),
-		.csr_we			( csr_we		),
-		.csr_di			( csr_dw		),
-		.csr_do			( csr_dr_sysctl	),
-
-		.gpio_inputs	( 2'h0			),
-		.gpio_outputs	( { leds_pad [3], 
-							leds_pad [2], 
-							leds_pad [1], 
-							leds_pad [0]} ),
-
-		.sysctl_reset	( sysctl_reset	)
-	);
-
-/*------------------------------------------------------------------------*/
 /* SD card controller                                                     */
 /*------------------------------------------------------------------------*/
 	memcard #(
@@ -540,6 +508,7 @@ assign cpu_interrupt = {16'd0,
 		.mc_cmd		( mc_cmd_pad		),
 		.mc_clk		( mc_clk_pad		)
 	);
+	
 /*------------------------------------------------------------------------*/
 /* SDRAM controller unit                                                  */
 /*------------------------------------------------------------------------*/

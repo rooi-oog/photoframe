@@ -1,0 +1,82 @@
+
+Discarded input sections
+
+ .data          0x0000000000000000        0x0 src/crt0.o
+ .bss           0x0000000000000000        0x0 src/crt0.o
+ .data          0x0000000000000000        0x0 src/main.o
+ .bss           0x0000000000000000        0x0 src/main.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+rom              0x0000000000000000 0x0000000000003000
+ram              0x0000000020000000 0x0000000000100000
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD src/crt0.o
+LOAD src/main.o
+START GROUP
+LOAD /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0/../../../../riscv32-unknown-elf/lib/libgloss.a
+LOAD /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0/../../../../riscv32-unknown-elf/lib/libnosys.a
+LOAD /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0/../../../../riscv32-unknown-elf/lib/libc_nano.a
+LOAD /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
+END GROUP
+LOAD /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
+LOAD /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0/../../../../riscv32-unknown-elf/lib/libc_nano.a
+LOAD /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
+START GROUP
+LOAD /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
+LOAD /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0/../../../../riscv32-unknown-elf/lib/libc_nano.a
+LOAD /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0/../../../../riscv32-unknown-elf/lib/libgloss_nano.a
+END GROUP
+                0x0000000000000000                __DYNAMIC = 0x0
+
+.text           0x0000000000000000       0xcc
+                0x0000000000000000                _ftext = .
+ *(.text .stub .text.* .gnu.linkonce.t.*)
+ .text          0x0000000000000000       0xac src/crt0.o
+                0x0000000000000000                _start
+ .text          0x00000000000000ac       0x20 src/main.o
+                0x00000000000000ac                main
+                0x00000000000000cc                _etext = .
+
+.rela.dyn       0x00000000000000cc        0x0
+ .rela.text     0x00000000000000cc        0x0 src/crt0.o
+
+.rodata         0x00000000000000cc        0x0
+                0x00000000000000cc                . = ALIGN (0x4)
+                0x00000000000000cc                _frodata = .
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+ *(.rodata1)
+                0x00000000000000cc                _erodata = .
+
+.data           0x00000000000000cc        0x0
+                0x00000000000000cc                . = ALIGN (0x4)
+                0x00000000000000cc                _fdata = .
+ *(.data .data.* .gnu.linkonce.d.*)
+ *(.data1)
+                0x00000000000000d0                _gp = ALIGN (0x10)
+ *(.sdata .sdata.* .gnu.linkonce.s.*)
+                0x00000000000000cc                _edata = .
+
+.bss            0x0000000020000000        0x0
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                _fbss = .
+ *(.dynsbss)
+ *(.sbss .sbss.* .gnu.linkonce.sb.*)
+ *(.scommon)
+ *(.dynbss)
+ *(.bss .bss.* .gnu.linkonce.b.*)
+ *(COMMON)
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                _ebss = .
+                0x0000000020000000                _end = .
+                [!provide]                        PROVIDE (end = .)
+                0x00000000200ffffc                PROVIDE (_fstack = ((ORIGIN (ram) + LENGTH (ram)) - 0x4))
+OUTPUT(build/bios.elf elf32-littleriscv)
+
+.comment        0x0000000000000000       0x11
+ .comment       0x0000000000000000       0x11 src/main.o
+                                         0x12 (size before relaxing)

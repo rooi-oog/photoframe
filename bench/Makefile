@@ -16,7 +16,7 @@ LIBDIR	+= -y../cores/sysctl/rtl
 LIBDIR	+= -y../cores/uart/rtl
 LIBDIR	+= -y../cores/memcard/rtl
 LIBDIR	+= -y../cores/monitor/rtl
-LIBDIR	+= ../cores/lm32/rtl/jtag_tap_spartan6.v
+LIBDIR	+= ../cores/picorv32/rtl/picorv32.v
 LIBDIR	+= ../board/de0-nano/rtl/pframe.v
 
 
